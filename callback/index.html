@@ -22,7 +22,7 @@
 <body>
 <main>
   <h1 id="t">Conectando ao OmniDark…</h1>
-  <p id="m">Levando o login de volta para o painel no seu computador (http://localhost:8080).</p>
+  <p id="m">Levando o login de volta para o painel no seu computador (http://127.0.0.1:8080).</p>
   <div class="row"><a class="btn" id="go" href="#">Abrir o OmniDark</a></div>
   <div id="manual" hidden>
     <p>Se o painel não abriu, copie o endereço abaixo e cole em <b>OmniDark → Contas → Retorno do login</b>:</p>
@@ -35,7 +35,8 @@
   var q = location.search;
   var p = new URLSearchParams(q);
   var platform = (location.pathname.match(/callback\/(\w+)/) || [])[1] || 'tiktok';
-  var target = 'http://localhost:8080/oauth/' + platform + '/callback' + q;
+  // 127.0.0.1 em vez de localhost: o Chrome não força https em endereço IP (em localhost às vezes força)
+  var target = 'http://127.0.0.1:8080/oauth/' + platform + '/callback' + q;
   document.getElementById('go').href = target;
   document.getElementById('url').value = location.href;
   document.getElementById('copy').onclick = function () {
@@ -47,7 +48,7 @@
     document.getElementById('t').textContent = 'Login não concluído';
     document.getElementById('m').className = 'err';
     document.getElementById('m').textContent = (p.get('error_description') || p.get('error')) + '. Volte ao OmniDark e clique em Conectar de novo.';
-    document.getElementById('go').href = 'http://localhost:8080/contas';
+    document.getElementById('go').href = 'http://127.0.0.1:8080/contas';
     return;
   }
   if (!p.get('code')) {
